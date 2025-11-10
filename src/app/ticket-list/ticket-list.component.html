@@ -1,0 +1,67 @@
+<div class="list-container">
+  <aside class="sidebar">
+    <h2>Tickets</h2>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar por Nº OS ou Data..."
+        [(ngModel)]="filtro"
+        (input)="filtrarTickets()"
+      />
+      <button class="btn-buscar"><i class="fas fa-search"></i> Buscar</button>
+    </div>
+
+    <div class="export-buttons">
+      <button class="btn-export" (click)="exportToExcel()">
+        Exportar Excel
+      </button>
+      <button class="btn-export" (click)="exportToPDF()">Exportar PDF</button>
+    </div>
+
+    <ul class="ticket-list">
+      <li
+        *ngFor="let ticket of ticketsFiltrados"
+        [class.active]="ticket === ticketSelecionado"
+        (click)="selecionarTicket(ticket)"
+      >
+        <strong>OS:</strong> {{ ticket.os }} <br />
+        <small>
+          {{ ticket.dataDoPedido | date : "dd/MM/yyyy" }}
+        </small>
+      </li>
+    </ul>
+
+    <button routerLink="/home" class="btn-voltar">Voltar</button>
+  </aside>
+
+  <main
+    class="ticket-detalhes"
+    *ngIf="ticketSelecionado; else nenhumSelecionado"
+  >
+    <h2>Detalhes do Ticket</h2>
+
+    <p><strong>Contribuinte:</strong> {{ ticketSelecionado.contribuinte }}</p>
+    <p><strong>Rua:</strong> {{ ticketSelecionado.rua }}</p>
+    <p><strong>Bairro:</strong> {{ ticketSelecionado.bairro }}</p>
+    <p><strong>Cidade:</strong> {{ ticketSelecionado.cidade }}</p>
+    <p><strong>CEP:</strong> {{ ticketSelecionado.cep }}</p>
+    <p><strong>Telefone:</strong> {{ ticketSelecionado.telefone }}</p>
+
+    <p>
+      <strong>Data do Pedido:</strong>
+      {{ ticketSelecionado.dataDoPedido | date : "dd/MM/yyyy" }}
+    </p>
+
+    <p>
+      <strong>Status:</strong>
+      <span class="status"> {{ ticketSelecionado.statusDoPedido }} </span>
+    </p>
+  </main>
+
+  <ng-template #nenhumSelecionado>
+    <div class="placeholder">
+      <p>Selecione um ticket na lista para ver os detalhes.</p>
+    </div>
+  </ng-template>
+</div>

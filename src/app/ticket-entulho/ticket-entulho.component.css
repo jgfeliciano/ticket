@@ -1,4 +1,15 @@
 .ticket-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #dce9f8, #f9f9f4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.ticket-card {
   max-width: 600px;
   margin: 40px auto;
   padding: 25px;

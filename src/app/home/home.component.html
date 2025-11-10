@@ -1,9 +1,22 @@
 <div class="home-container">
-  <h1>Sistema de Chamados</h1>
-  <p>Escolha o tipo de ticket que deseja registrar:</p>
+  <div class="logout-container">
+    <button class="logout-btn" (click)="logout()">Sair</button>
+  </div>
 
-  <div class="button-group">
-    <button routerLink="/ticket-iluminacao">Iluminação Pública</button>
-    <button routerLink="/ticket-entulho">Coleta de Entulho</button>
+  <div class="home-card">
+    <h1>Sistema de Chamados</h1>
+    <p class="instruction">Escolha o tipo de ticket que deseja registrar:</p>
+
+    <div class="button-group">
+      <button routerLink="/ticket-iluminacao" class="btn btn-iluminacao">
+        Iluminação Pública
+      </button>
+      <button routerLink="/ticket-entulho" class="btn btn-entulho">
+        Coleta de Entulho
+      </button>
+      <button routerLink="/ticket-list" class="btn btn-list">
+        Lista de Ticket
+      </button>
+    </div>
   </div>
 </div>

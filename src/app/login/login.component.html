@@ -1,0 +1,41 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <h2>Secretaria de Obras</h2>
+    <h3>Sistema de Chamados</h3>
+
+    <form (ngSubmit)="fazerLogin()" #formLogin="ngForm" autocomplete="off">
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="Digite seu e-mail"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input
+          type="password"
+          id="senha"
+          [(ngModel)]="password"
+          name="senha"
+          placeholder="Digite sua senha"
+          required
+        />
+      </div>
+
+      <button type="submit" [disabled]="formLogin.invalid">Entrar</button>
+    </form>
+
+    <footer>
+      <small
+        >© 2025 Prefeitura Municipal de Cachoeiras de Macacu - Secretaria de
+        Obras</small
+      >
+    </footer>
+  </div>
+</div>

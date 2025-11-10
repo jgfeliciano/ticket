@@ -1,0 +1,128 @@
+.list-container {
+  display: flex;
+  height: 100vh;
+  background: #f8f9fa;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.sidebar {
+  width: 300px;
+  background: #fff;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.search-box {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+}
+
+.search-box .btn-buscar {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-left: none;
+  background: #e9ecef;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.ticket-list {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.ticket-list li {
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.ticket-list li:hover {
+  background: #e9f7ff;
+}
+
+.ticket-list li.active {
+  background: #007bff;
+  color: #fff;
+}
+
+.btn-voltar {
+  margin-top: 15px;
+  padding: 8px;
+  background: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-voltar:hover {
+  background: #5a6268;
+}
+
+.export-buttons {
+  margin: 10px 0;
+}
+
+.btn-export {
+  padding: 8px 16px;
+  margin-right: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-export:last-child {
+  margin-right: 0;
+}
+
+.btn-export:hover {
+  background-color: #218838;
+}
+
+.ticket-detalhes {
+  flex: 1;
+  padding: 40px;
+  background: #fff;
+  border-radius: 8px;
+  margin: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0, 0.05);
+}
+
+.ticket-detalhes h2 {
+  margin-bottom: 20px;
+}
+
+.placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+}
