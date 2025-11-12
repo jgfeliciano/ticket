@@ -28,7 +28,16 @@
         />
       </div>
 
-      <button type="submit" [disabled]="formLogin.invalid">Entrar</button>
+      <button type="submit" [disabled]="formLogin.invalid || isLoading">
+        <ng-container *ngIf="!isLoading; else loading"> Entrar </ng-container>
+        <ng-template #loading>
+          <mat-spinner
+            diameter="24"
+            strokeWidth="3"
+            color="accent"
+          ></mat-spinner>
+        </ng-template>
+      </button>
     </form>
 
     <footer>

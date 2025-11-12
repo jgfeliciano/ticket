@@ -71,6 +71,11 @@ button {
   transition: 0.3s;
 }
 
+mat-spinner {
+  display: inline-block;
+  margin: 0 auto;
+}
+
 button:hover {
   background-color: #1c54d1;
 }
