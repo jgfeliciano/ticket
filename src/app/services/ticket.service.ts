@@ -28,7 +28,7 @@ export class TicketService {
 
   enviarPDF(base64PDF: string) {
     const payload = {
-      pdf: base64PDF
+      content: base64PDF
     };
 
     return this.http.post('https://ticketobras-1.onrender.com/api/v1/email', payload);
