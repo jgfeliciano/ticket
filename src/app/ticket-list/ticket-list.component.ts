@@ -38,12 +38,13 @@ export class TicketListComponent implements OnInit {
 
   filtrarTickets() {
     const termo = this.filtro.toLowerCase();
-    this.ticketsFiltrados = this.tickets.filter(
-      (t) =>
-        t.contribuinte?.toLowerCase().includes(termo) ||
-        t.cidade?.toLowerCase().includes(termo) ||
-        t.status?.toLowerCase().includes(termo)
-    );
+    this.ticketsFiltrados = this.tickets.filter((t) => {
+      const matchOS = t.os?.toString().toLowerCase().includes(termo);
+
+      const matchData = t.dataPedido && new Date(t.dataPedido).toLocaleDateString('pt-BR').includes(termo);
+
+      return matchOS || matchData;
+    });
   }
 
   selecionarTicket(ticket: any) {
@@ -75,7 +76,14 @@ export class TicketListComponent implements OnInit {
       body: rows,
       startY: 30,
       theme: 'grid'
-    })
+    });
+
+    const pdfBase64Only = doc.output('datauristring').split(',')[1];
+
+    this.ticketService.enviarPDF(pdfBase64Only).subscribe({
+      next: (res) => console.log('PDF enviado com sucesso!', res),
+      error: (err) => console.log('Erro ao enviar PDF:', err)
+    });
 
     doc.save('tickets.pdf');
   }

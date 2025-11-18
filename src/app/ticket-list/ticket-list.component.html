@@ -1,6 +1,6 @@
 <div class="list-container">
   <aside class="sidebar">
-    <h2>Tickets</h2>
+    <h2>Chamados</h2>
 
     <div class="search-box">
       <input
@@ -39,7 +39,7 @@
     class="ticket-detalhes"
     *ngIf="ticketSelecionado; else nenhumSelecionado"
   >
-    <h2>Detalhes do Ticket</h2>
+    <h2>Detalhes do Chamado</h2>
 
     <p><strong>Contribuinte:</strong> {{ ticketSelecionado.contribuinte }}</p>
     <p><strong>Rua:</strong> {{ ticketSelecionado.rua }}</p>

@@ -25,4 +25,12 @@ export class TicketService {
   atualizarTickets(dados: any): Observable<any> {
     return this.http.put(this.apiUrl, dados, { headers: this.headers, withCredentials: true });
   }
+
+  enviarPDF(base64PDF: string) {
+    const payload = {
+      pdf: base64PDF
+    };
+
+    return this.http.post('https://ticketobras-1.onrender.com/api/v1/email', payload);
+  }
 }
