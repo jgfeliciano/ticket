@@ -22,8 +22,11 @@ export class TicketService {
     return this.http.post(this.apiUrl, dados, { headers: this.headers, withCredentials: true });
   }
 
-  atualizarTickets(dados: any): Observable<any> {
-    return this.http.put(this.apiUrl, dados, { headers: this.headers, withCredentials: true });
+  atualizarTicket(id: number, dados: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}`, dados, {
+      headers: this.headers,
+      withCredentials: true
+    });
   }
 
   enviarPDF(base64PDF: string) {
@@ -32,5 +35,12 @@ export class TicketService {
     };
 
     return this.http.post('https://ticketobras-1.onrender.com/api/v1/email', payload);
+  }
+
+  excluirTicket(id: any) {
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.headers,
+      withCredentials: true
+    });
   }
 }

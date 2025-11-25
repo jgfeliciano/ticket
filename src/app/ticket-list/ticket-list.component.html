@@ -29,6 +29,22 @@
         <small>
           {{ ticket.dataDoPedido | date : "dd/MM/yyyy" }}
         </small>
+
+        <div class="acoes">
+          <button
+            class="btn-editar"
+            (click)="editarTicket(ticket); $event.stopPropagation()"
+          >
+            Editar
+          </button>
+
+          <button
+            class="btn-excluir"
+            (click)="confirmarExclusao(ticket); $event.stopPropagation()"
+          >
+            Excluir
+          </button>
+        </div>
       </li>
     </ul>
 

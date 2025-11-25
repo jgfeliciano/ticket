@@ -1,0 +1,79 @@
+<div class="edit-container">
+  <div class="edit-card">
+    <h2>Editar Chamado - OS {{ ticket?.os || "..." }}</h2>
+
+    <div *ngIf="carregando; else formBlock">
+      <p>Carregando...</p>
+    </div>
+
+    <ng-template #formBlock>
+      <form (ngSubmit)="salvar()" #f="ngForm" class="form-grid">
+        <div class="form-group">
+          <label>Contribuinte:</label>
+          <input
+            type="text"
+            [(ngModel)]="ticket.contribuinte"
+            name="contribuinte"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Rua:</label>
+          <input type="text" [(ngModel)]="ticket.rua" name="rua" required />
+        </div>
+
+        <div class="form-group">
+          <label>Bairro:</label>
+          <input
+            type="text"
+            [(ngModel)]="ticket.bairro"
+            name="bairro"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Cidade:</label>
+          <input
+            type="text"
+            [(ngModel)]="ticket.cidade"
+            name="cidade"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>CEP:</label>
+          <input type="text" [(ngModel)]="ticket.cep" name="cep" required />
+        </div>
+
+        <div class="form-group">
+          <label>Telefone:</label>
+          <input
+            type="text"
+            [(ngModel)]="ticket.telefone"
+            name="telefone"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Status do Pedido</label>
+          <select [(ngModel)]="ticket.statusDoPedido" name="statusDoPedido">
+            <option value="Aberto">Aberto</option>
+            <option value="Em Andamento">Em Andamento</option>
+            <option value="Concluido">Concluído</option>
+            <option value="Cancelado">Cancelado</option>
+          </select>
+        </div>
+
+        <div class="botoes">
+          <button type="submit" class="btn-salvar">Salvar Alterações</button>
+          <button type="button" (click)="cancelar()" class="btn-cancelar">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </ng-template>
+  </div>
+</div>

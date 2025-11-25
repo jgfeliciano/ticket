@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TicketService } from '../services/ticket.service';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
@@ -20,7 +20,7 @@ export class TicketListComponent implements OnInit {
   ticketsFiltrados: any[] = [];
   ticketSelecionado: any = null;
 
-  constructor(private ticketService: TicketService) { }
+  constructor(private ticketService: TicketService, private router: Router) { }
 
   ngOnInit() {
     this.carregarTickets();
@@ -86,5 +86,23 @@ export class TicketListComponent implements OnInit {
     });
 
     doc.save('tickets.pdf');
+  }
+
+  editarTicket(ticket: any) {
+    if (!ticket) return;
+    this.router.navigate(['/editar', ticket.id]);
+  }
+
+  confirmarExclusao(ticket: any) {
+    const confirmacao = confirm(`Tem certeza que deseja excluir a OS ${ticket.os}?`);
+    if (confirmacao) {
+      this.ticketService.excluirTicket(ticket.id).subscribe({
+        next: () => {
+          alert('Chamado excluído com sucesso!');
+          this.carregarTickets();
+        },
+        error: (err) => console.error('Erro ao excluir:', err),
+      });
+    }
   }
 }

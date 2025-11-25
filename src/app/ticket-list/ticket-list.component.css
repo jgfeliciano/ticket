@@ -106,6 +106,44 @@
   background-color: #218838;
 }
 
+.btn-editar {
+  padding: 5px 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 8px;
+  transition: all 0.2s;
+}
+
+.btn-editar:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+.btn-excluir {
+  padding: 5px 10px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 8px;
+  transition: all 0.2s;
+}
+
+.btn-excluir:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+.btn-excluir:active {
+  transform: scale(0.97);
+}
+
 .ticket-detalhes {
   flex: 1;
   padding: 40px;

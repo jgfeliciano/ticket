@@ -10,5 +10,6 @@ export const routes: Routes = [
   { path: 'ticket-iluminacao', component: TicketIluminacaoComponent },
   { path: 'ticket-entulho', component: TicketEntulhoComponent },
   { path: 'ticket-list', component: TicketListComponent },
+  { path: 'editar/:id', loadComponent: () => import('./ticket-edit/ticket-edit.component').then(m => m.TicketEditComponent) },
   { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];
