@@ -3,6 +3,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TicketService } from '../services/ticket.service';
 import { RouterLink } from "@angular/router";
 import { ViacepService } from '../services/viacep.service';
+import { formatarDateToISO } from '../utils';
 
 @Component({
   selector: 'app-ticket-entulho',
@@ -79,7 +80,7 @@ export class TicketEntulhoComponent {
         rua: this.entulhoForm.value.rua,
         contribuinte: this.entulhoForm.value.contribuinte,
         telefone: this.entulhoForm.value.telefone,
-        dataDoPedido: this.entulhoForm.value.dataPedido ? new Date(this.entulhoForm.value.dataPedido).toISOString() : new Date().toISOString(),
+        dataDoPedido: this.entulhoForm.value.dataPedido ? formatarDateToISO(this.entulhoForm.value.dataPedido) : formatarDateToISO(new Date().toISOString()),
         statusDoPedido: 'Em aberto',
         os: this.entulhoForm.value.numeroOs
       };

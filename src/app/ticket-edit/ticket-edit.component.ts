@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TicketService } from '../services/ticket.service';
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';
+import { formatarDateToISO } from '../utils';
 
 @Component({
   selector: 'app-ticket-edit',
@@ -40,14 +41,18 @@ export class TicketEditComponent {
   salvar(): void {
     if (!this.ticket?.id) return;
 
+    if (this.ticket.dataDoPedido) {
+      this.ticket.dataDoPedido = formatarDateToISO(this.ticket.dataDoPedido);
+    }
+
     this.ticketService.atualizarTicket(this.ticket.id, this.ticket).subscribe({
       next: () => {
         alert('Chamado atualizado com sucesso!');
         this.router.navigate(['/ticket-list']);
       },
-      error: (err) => {
-        console.error(err);
-        alert('Erro ao salvar as alterações');
+      error: () => {
+        console.error('Erro ao atualizar o chamado');
+        alert('Erro ao atualizar o chamado.');
       }
     });
   }

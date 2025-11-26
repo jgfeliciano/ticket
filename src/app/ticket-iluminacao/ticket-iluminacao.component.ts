@@ -3,6 +3,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TicketService } from '../services/ticket.service';
 import { RouterLink } from "@angular/router";
 import { ViacepService } from '../services/viacep.service';
+import { formatarDateToISO } from '../utils';
 
 @Component({
   selector: 'app-ticket-iluminacao',
@@ -80,7 +81,7 @@ export class TicketIluminacaoComponent {
         rua: this.iluminacaoForm.value.rua,
         contribuinte: this.iluminacaoForm.value.contribuinte,
         telefone: this.iluminacaoForm.value.telefone,
-        dataDoPedido: this.iluminacaoForm.value.dataPedido ? new Date(this.iluminacaoForm.value.dataPedido).toISOString() : new Date().toISOString(),
+        dataDoPedido: this.iluminacaoForm.value.dataPedido ? formatarDateToISO(this.iluminacaoForm.value.dataPedido) : formatarDateToISO(new Date().toISOString()),
         solicitacao: this.iluminacaoForm.value.solicitacao,
         statusDoPedido: 'Em aberto',
         os: this.iluminacaoForm.value.numeroOs
