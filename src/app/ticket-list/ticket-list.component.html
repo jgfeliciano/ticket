@@ -5,7 +5,7 @@
     <div class="search-box">
       <input
         type="text"
-        placeholder="Buscar por Nº OS ou Data..."
+        placeholder="Buscar por OS, Contribuinte, Cidade ou Data..."
         [(ngModel)]="filtro"
         (input)="filtrarTickets()"
       />
@@ -13,40 +13,56 @@
     </div>
 
     <div class="export-buttons">
-      <button class="btn-export" (click)="exportToExcel()">
-        Exportar Excel
+      <button class="btn-export btn-pdf" (click)="exportToPDF()">
+        <i class="fas fa-file-pdf"></i> PDF
       </button>
-      <button class="btn-export" (click)="exportToPDF()">Exportar PDF</button>
+
+      <button class="btn-export btn-excel" (click)="exportToExcel()">
+        <i class="fas fa-file-excel"></i> Excel
+      </button>
     </div>
 
     <ul class="ticket-list">
       <li
-        *ngFor="let ticket of ticketsFiltrados"
+        *ngFor="let ticket of ticketsPaginados"
         [class.active]="ticket === ticketSelecionado"
         (click)="selecionarTicket(ticket)"
       >
         <strong>OS:</strong> {{ ticket.os }} <br />
-        <small>
-          {{ ticket.dataDoPedido | date : "dd/MM/yyyy" }}
-        </small>
+        <small>{{ ticket.dataDoPedido | date : "dd/MM/yyyy" }}</small>
 
         <div class="acoes">
           <button
             class="btn-editar"
             (click)="editarTicket(ticket); $event.stopPropagation()"
           >
-            Editar
+            <i class="fas fa-edit"></i> Editar
           </button>
-
           <button
             class="btn-excluir"
             (click)="confirmarExclusao(ticket); $event.stopPropagation()"
           >
-            Excluir
+            <i class="fas fa-trash"></i> Excluir
           </button>
         </div>
       </li>
     </ul>
+
+    <div class="paginacao" *ngIf="ticketsFiltrados.length > itensPorPagina">
+      <button
+        (click)="paginaAtual = paginaAtual - 1"
+        [disabled]="paginaAtual === 1"
+      >
+        Anterior
+      </button>
+      <span>Página {{ paginaAtual }}</span>
+      <button
+        (click)="paginaAtual = paginaAtual + 1"
+        [disabled]="paginaAtual * itensPorPagina >= ticketsFiltrados.length"
+      >
+        Próxima
+      </button>
+    </div>
 
     <button routerLink="/home" class="btn-voltar">Voltar</button>
   </aside>
@@ -57,27 +73,50 @@
   >
     <h2>Detalhes do Chamado</h2>
 
-    <p><strong>Contribuinte:</strong> {{ ticketSelecionado.contribuinte }}</p>
-    <p><strong>Rua:</strong> {{ ticketSelecionado.rua }}</p>
-    <p><strong>Bairro:</strong> {{ ticketSelecionado.bairro }}</p>
-    <p><strong>Cidade:</strong> {{ ticketSelecionado.cidade }}</p>
-    <p><strong>CEP:</strong> {{ ticketSelecionado.cep }}</p>
-    <p><strong>Telefone:</strong> {{ ticketSelecionado.telefone }}</p>
-
-    <p>
-      <strong>Data do Pedido:</strong>
-      {{ ticketSelecionado.dataDoPedido | date : "dd/MM/yyyy" }}
-    </p>
-
-    <p>
-      <strong>Status:</strong>
-      <span class="status"> {{ ticketSelecionado.statusDoPedido }} </span>
-    </p>
+    <div class="detalhes-card">
+      <div>
+        <strong>Contribuinte:</strong> {{ ticketSelecionado.contribuinte }}
+      </div>
+      <div><strong>Rua:</strong> {{ ticketSelecionado.rua }}</div>
+      <div><strong>Bairro:</strong> {{ ticketSelecionado.bairro }}</div>
+      <div><strong>Cidade:</strong> {{ ticketSelecionado.cidade }}</div>
+      <div><strong>CEP:</strong> {{ ticketSelecionado.cep }}</div>
+      <div><strong>Telefone:</strong> {{ ticketSelecionado.telefone }}</div>
+      <div>
+        <strong>Data do Pedido:</strong>
+        {{ ticketSelecionado.dataPedido | date : "dd/MM/yyyy" }}
+      </div>
+      <div>
+        <strong>Status:</strong>
+        <span class="status"> {{ ticketSelecionado.statusDoPedido }} </span>
+      </div>
+    </div>
   </main>
-
   <ng-template #nenhumSelecionado>
     <div class="placeholder">
-      <p>Selecione um ticket na lista para ver os detalhes.</p>
+      <i class="fas fa-info-circle"></i>
+      <p>Selecione um Chamado na lista para ver os detalhes.</p>
     </div>
   </ng-template>
+
+  <div class="toast" *ngIf="mensagem">{{ mensagem }}</div>
+
+  <div class="modal-overlay" *ngIf="ticketParaExcluir">
+    <div class="modal">
+      <h3>Confirmar exclusão</h3>
+      <p>
+        Tem certeza que deseja excluir a OS
+        <strong>{{ ticketParaExcluir.os }}</strong
+        >?
+      </p>
+      <div class="modal-actions">
+        <button class="btn-confirm" (click)="excluirTicket()">
+          Sim, excluir
+        </button>
+        <button class="btn-cancel" (click)="ticketParaExcluir = null">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

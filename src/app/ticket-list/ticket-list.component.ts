@@ -6,7 +6,6 @@ import { TicketService } from '../services/ticket.service';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { tick } from '@angular/core/testing';
 
 @Component({
   selector: 'app-ticket-list',
@@ -19,6 +18,12 @@ export class TicketListComponent implements OnInit {
   tickets: any[] = [];
   ticketsFiltrados: any[] = [];
   ticketSelecionado: any = null;
+
+  paginaAtual = 1;
+  itensPorPagina = 6;
+
+  mensagem: string | null = null;
+  ticketParaExcluir: any = null;
 
   constructor(private ticketService: TicketService, private router: Router) { }
 
@@ -38,14 +43,23 @@ export class TicketListComponent implements OnInit {
 
   filtrarTickets() {
     const termo = this.filtro.toLowerCase();
-    this.ticketsFiltrados = this.tickets.filter((t) => {
-      const matchOS = t.os?.toString().toLowerCase().includes(termo);
-
-      const matchData = t.dataPedido && new Date(t.dataPedido).toLocaleDateString('pt-BR').includes(termo);
-
-      return matchOS || matchData;
+    this.ticketsFiltrados = this.tickets.filter((ticket) => {
+      return (
+        ticket.os?.toString().toLowerCase().includes(termo) ||
+        ticket.contribuinte?.toLowerCase().includes(termo) ||
+        ticket.cidade?.toLowerCase().includes(termo) ||
+        ticket.status?.toLowerCase().includes(termo) ||
+        (ticket.dataPedido && new Date(ticket.dataPedido).toLocaleDateString('pt-BR').includes(termo))
+      );
     });
+    this.paginaAtual = 1;
   }
+
+  get ticketsPaginados() {
+    const start = (this.paginaAtual - 1) * this.itensPorPagina;
+    return this.ticketsFiltrados.slice(start, start + this.itensPorPagina);
+  }
+
 
   selecionarTicket(ticket: any) {
     this.ticketSelecionado = ticket;
@@ -62,13 +76,13 @@ export class TicketListComponent implements OnInit {
     const doc = new jsPDF();
     doc.text('Lista de Tickets', 14, 20);
 
-    const columns = ['os', 'contribuinte', 'cidade', 'dataPedido', 'status'];
+    const columns = ['OS', 'Contribuinte', 'Cidade', 'Data', 'Status'];
     const rows = this.ticketsFiltrados.map(ticket => [
       ticket.os,
       ticket.contribuinte,
       ticket.cidade,
-      ticket.dataPedido,
-      ticket.status
+      new Date(ticket.dataDoPedido).toLocaleDateString('pt-BR'),
+      ticket.statusDoPedido
     ]);
 
     autoTable(doc, {
@@ -94,15 +108,24 @@ export class TicketListComponent implements OnInit {
   }
 
   confirmarExclusao(ticket: any) {
-    const confirmacao = confirm(`Tem certeza que deseja excluir a OS ${ticket.os}?`);
-    if (confirmacao) {
-      this.ticketService.excluirTicket(ticket.id).subscribe({
-        next: () => {
-          alert('Chamado excluído com sucesso!');
-          this.carregarTickets();
-        },
-        error: (err) => console.error('Erro ao excluir:', err),
-      });
-    }
+    this.ticketParaExcluir = ticket;
+  }
+
+  excluirTicket() {
+    if (!this.ticketParaExcluir) return;
+
+    this.ticketService.excluirTicket(this.ticketParaExcluir.id).subscribe({
+      next: () => {
+        this.ticketParaExcluir = null;
+        this.mostrarMensagem('Chamado excluído com sucesso!');
+        this.carregarTickets();
+      },
+      error: (err) => console.error('Erro ao excluir chamado:', err),
+    });
+  }
+
+  mostrarMensagem(texto: string) {
+    this.mensagem = texto;
+    setTimeout(() => this.mensagem = null, 3000);
   }
 }
