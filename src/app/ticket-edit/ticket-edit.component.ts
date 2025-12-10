@@ -15,11 +15,20 @@ export class TicketEditComponent {
   ticket: any = {};
   carregando = true;
 
+  mensagem: string | null = null;
+  tipoMensagem: 'sucesso' | 'erro' = 'sucesso';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private ticketService: TicketService
   ) { }
+
+  mosntrarMensagem(texto: string, tipo: 'sucesso' | 'erro' = 'sucesso') {
+    this.mensagem = texto;
+    this.tipoMensagem = tipo;
+    setTimeout(() => this.mensagem = null, 3000);
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -31,7 +40,7 @@ export class TicketEditComponent {
           this.carregando = false;
         },
         error: () => {
-          alert('Erro ao carregar o Ticket');
+          this.mosntrarMensagem('Erro ao carregar o Chamado.', 'erro');
           this.router.navigate(['/ticket-list']);
         }
       });
@@ -47,12 +56,12 @@ export class TicketEditComponent {
 
     this.ticketService.atualizarTicket(this.ticket.id, this.ticket).subscribe({
       next: () => {
-        alert('Chamado atualizado com sucesso!');
-        this.router.navigate(['/ticket-list']);
+        this.mosntrarMensagem('Chamado atualizado com sucesso!', 'sucesso');
+        setTimeout(() => this.router.navigate(['/ticket-list']), 1500);
       },
       error: () => {
         console.error('Erro ao atualizar o chamado');
-        alert('Erro ao atualizar o chamado.');
+        this.mosntrarMensagem('Erro ao atualizar o chamado.', 'erro');
       }
     });
   }

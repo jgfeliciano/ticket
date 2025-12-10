@@ -60,7 +60,6 @@
         <div class="form-group">
           <label>Status do Pedido</label>
           <select [(ngModel)]="ticket.statusDoPedido" name="statusDoPedido">
-            <option value="Aberto">Aberto</option>
             <option value="Em Andamento">Em Andamento</option>
             <option value="Concluido">Concluído</option>
             <option value="Cancelado">Cancelado</option>
@@ -76,4 +75,10 @@
       </form>
     </ng-template>
   </div>
+</div>
+
+<div class="toast" *ngIf="mensagem" [ngClass]="tipoMensagem">
+  <i class="fas fa-check-circle" *ngIf="tipoMensagem === 'sucesso'"></i>
+  <i class="fas fa-exclamation-circle" *ngIf="tipoMensagem === 'erro'"></i>
+  {{ mensagem }}
 </div>

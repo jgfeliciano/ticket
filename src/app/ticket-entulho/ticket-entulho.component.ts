@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TicketService } from '../services/ticket.service';
 import { RouterLink } from "@angular/router";
@@ -9,11 +10,15 @@ import { formatarDateToISO } from '../utils';
   selector: 'app-ticket-entulho',
   templateUrl: './ticket-entulho.component.html',
   styleUrls: ['./ticket-entulho.component.css'],
-  imports: [ReactiveFormsModule, RouterLink,],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink,],
   standalone: true
 })
 export class TicketEntulhoComponent {
   entulhoForm;
+  @ViewChild('cepInput') cepInput!: ElementRef;
+
+  mensagem: string | null = null;
+  tipoMensagem: 'sucesso' | 'erro' = 'sucesso';
 
   constructor(private fb: FormBuilder, private ticketService: TicketService, private viacepService: ViacepService) {
     this.entulhoForm = this.fb.group({
@@ -26,6 +31,12 @@ export class TicketEntulhoComponent {
       dataPedido: ['', Validators.required],
       numeroOs: ['', Validators.required]
     });
+  }
+
+  mostrarMensagem(texto: string, tipo: 'sucesso' | 'erro' = 'sucesso') {
+    this.mensagem = texto;
+    this.tipoMensagem = tipo;
+    setTimeout(() => this.mensagem = null, 3000);
   }
 
   buscarCep() {
@@ -86,11 +97,15 @@ export class TicketEntulhoComponent {
       };
 
       this.ticketService.criarTicket(dados).subscribe({
-        next: () => alert('Ticket de Entulho criado com sucesso!'),
-        error: (err) => alert('Erro ao criar ticket: ' + err.message)
+        next: () => {
+          this.mostrarMensagem('Chamado criado com sucesso!', 'sucesso');
+          this.entulhoForm.reset();
+          setTimeout(() => this.cepInput?.nativeElement.focus(), 0);
+        },
+        error: (err) => this.mostrarMensagem('Erro ao criar chamado:' + err.mensagem, 'erro')
       });
     } else {
-      alert('Por favor, preencha todos os campos obrigatórios.');
+      this.mostrarMensagem('Por favor, preencha todos os campos obrigatórios.', 'erro');
     }
   }
 }

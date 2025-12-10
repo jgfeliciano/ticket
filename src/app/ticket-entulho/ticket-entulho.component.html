@@ -90,3 +90,9 @@
     </form>
   </div>
 </div>
+
+<div class="toast" *ngIf="mensagem" [ngClass]="tipoMensagem">
+  <i class="fas fa-check-circle" *ngIf="tipoMensagem === 'sucesso'"></i>
+  <i class="fas fa-exclamation-circle" *ngIf="tipoMensagem === 'erro'"></i>
+  {{ mensagem }}
+</div>

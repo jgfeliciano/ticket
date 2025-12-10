@@ -5,7 +5,7 @@
     <div class="search-box">
       <input
         type="text"
-        placeholder="Buscar por OS, Contribuinte, Cidade ou Data..."
+        placeholder="Buscar por OS, Contribuinte..."
         [(ngModel)]="filtro"
         (input)="filtrarTickets()"
       />
@@ -28,8 +28,10 @@
         [class.active]="ticket === ticketSelecionado"
         (click)="selecionarTicket(ticket)"
       >
-        <strong>OS:</strong> {{ ticket.os }} <br />
-        <small>{{ ticket.dataDoPedido | date : "dd/MM/yyyy" }}</small>
+        <div class="info">
+          <strong>OS:</strong> {{ ticket.os }} <br />
+          <small>{{ ticket.dataDoPedido | date : "dd/MM/yyyy" }}</small>
+        </div>
 
         <div class="acoes">
           <button
@@ -50,6 +52,7 @@
 
     <div class="paginacao" *ngIf="ticketsFiltrados.length > itensPorPagina">
       <button
+        class="btn-back"
         (click)="paginaAtual = paginaAtual - 1"
         [disabled]="paginaAtual === 1"
       >
@@ -57,6 +60,7 @@
       </button>
       <span>Página {{ paginaAtual }}</span>
       <button
+        class="btn-next"
         (click)="paginaAtual = paginaAtual + 1"
         [disabled]="paginaAtual * itensPorPagina >= ticketsFiltrados.length"
       >
@@ -84,7 +88,7 @@
       <div><strong>Telefone:</strong> {{ ticketSelecionado.telefone }}</div>
       <div>
         <strong>Data do Pedido:</strong>
-        {{ ticketSelecionado.dataPedido | date : "dd/MM/yyyy" }}
+        {{ ticketSelecionado.dataDoPedido | date : "dd/MM/yyyy" }}
       </div>
       <div>
         <strong>Status:</strong>

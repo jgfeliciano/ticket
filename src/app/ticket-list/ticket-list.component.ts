@@ -48,8 +48,8 @@ export class TicketListComponent implements OnInit {
         ticket.os?.toString().toLowerCase().includes(termo) ||
         ticket.contribuinte?.toLowerCase().includes(termo) ||
         ticket.cidade?.toLowerCase().includes(termo) ||
-        ticket.status?.toLowerCase().includes(termo) ||
-        (ticket.dataPedido && new Date(ticket.dataPedido).toLocaleDateString('pt-BR').includes(termo))
+        ticket.statusDoPedido?.toLowerCase().includes(termo) ||
+        (ticket.dataDoPedido && new Date(ticket.dataDoPedido).toLocaleDateString('pt-BR').includes(termo))
       );
     });
     this.paginaAtual = 1;
